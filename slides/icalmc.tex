@@ -1,0 +1,56 @@
+\begin{tikzpicture}[%node distance=100mm,
+state/.style={
+% The shape:
+circle,minimum size=8mm,rounded corners=2mm,
+% The rest
+%draw=black
+},
+transform canvas={scale=0.53},
+scale=2.3,
+shift={(0.5,1.2)}]
+% draw the nodes
+\newcommand{\layer}{}
+\newcommand{\calcium}{\mathrm{\layer}}
+\newcommand{\open}{O}
+{\color{gray}
+  \uncover<2,3>{\node[draw,minimum size=6mm] at (-0.8,0) {Mode $\vm$};}
+  \uncover<4->{\node[draw,minimum size=6mm] at (-0.8,0) {Single layer};}
+\input{layer.tex}}
+
+\uncover<-3>{
+\renewcommand{\layer}{Ca}
+\renewcommand{\open}{I_{\calcium}}
+\begin{scope}[shift={(0,-1.1)}]
+  \uncover<2,3>{\node[draw,minimum size=6mm] at (-0.8,0) {Mode $\calcium^{2+}$};}
+  \input{layer.tex}
+\end{scope}
+
+% draw the transitions betwen Ca and V mode
+{\color{lightgray}
+  \updowndoubledashedharpoon{00}{Ca00}{{\uncover<3>{$\theta$}}}{{\uncover<3>{$\delta$}}}{-90}
+\updowndoubledashedharpoon{10}{Ca10}  {{\uncover<3>{$\theta$}}}{{\uncover<3>{$\delta$}}}{-90}
+\updowndoubledashedharpoon{20}{Ca20}  {{\uncover<3>{$\theta$}}}{{\uncover<3>{$\delta$}}}{-90}
+\updowndoubledashedharpoon{30}{Ca30}  {{\uncover<3>{$\theta$}}}{{\uncover<3>{$\delta$}}}{-90}
+\updowndoubledashedharpoon{40}{Ca40}  {{\uncover<3>{$\theta$}}}{{\uncover<3>{\hspace{-0.25em}$\delta$}}}{-90}
+\updowndoubledashedharpoon{51}{Ca51}  {{\uncover<3>{$\theta$}}}{{\uncover<3>{$\delta$}}}{-90}
+\updowndoubledashedharpoon{5m1}{Ca5m1}{{\uncover<3>{$\theta$}}}{{\uncover<3>{$\delta$}}}{-90}
+}
+}
+
+\uncover<5->{
+  \begin{scope}[state/.style={
+% The shape:
+      minimum size=10mm,
+% The rest
+%draw=black
+}]
+\node[draw,minimum size=6mm] at (0.8,-1.6) {Mode $\vm$};
+\node[draw,minimum size=6mm] at (0.8,-2.4) {Mode $\calcium^{2+}$};
+\path 
+(1.7,-1.6) node (q1) [state] {$\q$}
+(1.7,-2.4) node (q0) [state] {$(1-\q)$};
+    \updowndoubledashedharpoon{q1}{q0}{$\theta$}{$\delta$}{-90}
+  \end{scope}
+}
+
+\end{tikzpicture}

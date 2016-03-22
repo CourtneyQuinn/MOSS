@@ -1,0 +1,112 @@
+% style for the differential equations
+\renewcommand{\d}{{\mathrm{d}}}
+
+\newcommand{\df}[2]{\frac{\d{#1}}{\d{#2}}}
+\newcommand{\ddf}[2]{\frac{\d^2 {#1}}{\d{#2}^2}}
+\newcommand{\ddt}[1]{\frac{\d {#1}}{\d{\t}}}
+
+\newcommand{\mat}{\boldsymbol}
+\newcommand{\T}{^{\color{\notcolor}\!\top}} % matrix transposition 
+\providecommand{\norm}[1]{\lVert#1\rVert}
+
+% cell model variables
+\+{\vm}{V} % membrane voltage
+\+{\ina}{\mathrm{I_{Na}}}
+\+{\ical}{\mathrm{I_{Ca(L)}}}
+\+{\irel}{\mathrm{I_{rel}}}
+\+{\caiss}{\mathrm{[Ca^{2+}]_{ss}}}
+\+{\cajsr}{\mathrm{[Ca^{2+}]_{JSR}}}
+\+{\cai}{\mathrm{[Ca^{2+}]_i}}
+\+{\nai}{\mathrm{[Na^+]_i}}
+\+{\ki}{\mathrm{[K^+]_i}}
+\+{\csqn}{[\mathrm{CSQN}]}
+\+{\csqnbar}{\mathrm{\overline{CSQN}}}
+
+% chemical elements
+\+{\Ca}{\mathrm{Ca}}
+\+{\Caion}{$\mathrm{Ca^{2+}}~$}
+
+% physical units
+\+{\mus}{\mathrm{\mu s}} % micro seconds
+\+{\mV}{\mathrm{mV}} % milivolts
+\+{\mMol}{\mathrm{mM}} % miliMol/L
+\+{\muM}{\mathrm{\mu M}} % microMol/L
+\+{\ms}{\mathrm{ms}} % miliSecond
+\+{\muA}{\mathrm{\mu A}} % microAmper
+\+{\muF}{\mathrm{\mu F}} % microFarad
+
+% methods' options
+\+{\stT}{\Delta t} % time step
+
+% functions
+\+{\abs}{\mathrm{abs}} % absolute value
+
+% shortcuts for transition rates
+\1{\alp}{\alpha_{#1}}
+\1{\bet}{\beta_{#1}}
+\1{\gam}{\gamma_{#1}}
+\1{\del}{\delta_{#1}}
+
+\1{\lam}{\lambda_{#1}}
+\1{\phis}{\phi_{#1}}
+\1{\ome}{\omega_{#1}}
+
+\+{\ConeCtwo}{\alp{1R}}
+\+{\CtwoCthree}{\alp{2R}}
+\+{\CthreeCfour}{\alp{3R}}
+\+{\CfourOone}{\alp{4R}}
+
+\+{\IoneItwo}{\alp{1R}}
+\+{\ItwoIthree}{\alp{2R}}
+\+{\IthreeIfour}{\alp{3R}}
+\+{\IfourIfive}{\alp{4R}}
+          
+\+{\CtwoCone}{\bet{1R}}
+\+{\CthreeCtwo}{\bet{2R}}
+\+{\CfourCthree}{\bet{3R}}
+\+{\OoneCfour}{\bet{4R}}
+
+\+{\ItwoIone}{\bet{1R}}
+\+{\IthreeItwo}{\bet{2R}}
+\+{\IfourIthree}{\bet{3R}}
+\+{\IfiveIfour}{\bet{4R}}
+
+\+{\ConeIone}{\gam{1R}}
+\+{\CtwoItwo}{\gam{2R}}
+\+{\CthreeIthree}{\gam{3R}}
+\+{\CfourIfour}{\gam{4R}}
+\+{\OoneIfive}{\gam{5R}}
+          
+\+{\IoneCone}{\del{1R}}
+\+{\ItwoCtwo}{\del{2R}}
+\+{\IthreeCthree}{\del{3R}}
+\+{\IfourCfour}{\del{4R}}
+\+{\IfiveOone}{\del{5R}}
+
+\+{\Cone}  {C_{1}}
+\+{\Ctwo}  {C_{2}}
+\+{\Cthree}{C_{3}}
+\+{\Cfour} {C_{4}}
+\+{\Oone}  {O}
+\+{\Ione}  {I_{1}}
+\+{\Itwo}  {I_{2}}
+\+{\Ithree}{I_{3}}
+\+{\Ifour} {I_{4}}
+\+{\Ifive} {I_{5}}
+
+
+\+{\mA}{\mat A}
+\+{\mB}{\mat B}
+\+{\mC}{\mat C}
+\+{\mM}{\mat M}
+\+{\c}{c}
+\+{\u}{u}
+\+{\vv}{v} % \v is reserved for hacek
+\+{\w}{w}
+\+{\x}{x}
+\+{\y}{y}
+\+{\ybar}{\bar{y}}
+\+{\dt}{\Delta t}
+\+{\dt}{\stT}
+\+{\tC}{\tau}
+\+{\t}{t}
