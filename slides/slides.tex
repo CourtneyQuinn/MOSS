@@ -1,5 +1,6 @@
-\documentclass[compress]{beamer}
-\mode<presentation> 
+\documentclass[compress,handout]{beamer}
+% use handout option for one slide per page
+\mode<presentation>
 
 \usetheme{Frankfurt} 
 %regular LaTeX title/author info
@@ -15,13 +16,6 @@
 \input{./packages.tex} 
 \input{./macros_TS.tex}
 \input{./nots_TS.tex}
-\+{\Tab}{T}
-\+{\Ej}{j}
-\+{\eM}{\mat P}
-\+{\eD}{\mat \Lambda}
-\+{\I}{\mat{\mathrm{I}}}
-\+{\q}{q}
-\+{\qbar}{\bar{\q}}
 
 % \+{\dt}{h}
 
@@ -48,15 +42,15 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\title{Evaluating Exponential Integrators for Markov Chain Ion Channel Models}
+\title{Analysis of Numerical Methods for Markov Chain Models of Ionic Channels}
 \author{Tom\'a\v s Star\'y, Vadim N. Biktashev }
 \institute{\footnotesize 
   College of Engineering, Mathematics and Physical Sciences \\[1ex]
   \includegraphics[width=0.3\linewidth]{fig/exeLogo.pdf} 
 }
 \date{\it
-  Computing in Cardiology, Nice, \\
- Wed 9 Sep, 2015
+  British Applied Mathematics Colloquium, Oxford, \\
+  Fri 8 Apr, 2016
 }
 
 
@@ -81,79 +75,89 @@
 % \section[Outline]{}
 % \frame{\tableofcontents}
 
+% \subsection{Cellular Membrane}
+
+\section{Introduction}
+\subsection{Cellular Membrane}
+\begin{frame}
+  \frametitle{Cellular Membrane}
+  Capacitor equation describing a single cell
+  {\color{\eqcolor}
+  \begin{align*}
+    \ddt{\vm} = -\frac{1}{\Cm} \sum_{k} \Im_k(\vm,\c,\Pop)
+  \end{align*}}
+      \vspace{-1.5em}
+  \begin{itemize}
+  \item $\vm(t)$, $\Cm$  -- membrane voltage and capacitance
+  \item $\Im_k(\vm,\c,\Pop)$ -- ionic currents
+  \item $\c(t)$ -- ionic concentrations
+  \item $\Pop(t)$ -- open probability of ionic channel
+  \end{itemize}
+\end{frame}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Ion Channel Models}
+\subsection{Ion Channel}
 \begin{frame}
-  \frametitle{Ion Channel Models}
-  Composed of {\em gates}:
-  {\color{\eqcolor}
-    \begin{align*}
-      \ddt{\y} = \alpha(\vm) (1-\y) - \beta(\vm) \y 
-    \end{align*}}
-  % 
-  \begin{itemize}
-  \item $\y$ -- open probability of the gate
-  \item $\alpha$ -- opening transition rate
-  \item $\beta$ -- closing transition rate
-  \item $\vm$ -- membrane voltage
-  \end{itemize}
-  %
-  \uncover<2>{
-  Generalized by {\em Markov chain} states:
+  \frametitle{Ion Channel}
+  % Composed of {\em gates}:
+  % {\color{\eqcolor}
+  %   \begin{align*}
+  %     \ddt{\y} = \alpha(\vm) (1-\y) - \beta(\vm) \y 
+  %   \end{align*}}
+  % % 
+  % \begin{itemize}
+  % \item $\y$ -- open probability of the gate
+
+  % \item $\alpha$ -- opening transition rate
+  % \item $\beta$ -- closing transition rate
+  % \item $\vm$ -- membrane voltage
+  % \end{itemize}
+  % %
+  % \uncover<2>{
+  % Generalized by
+  {\em Markov chain} states
   {\color{\eqcolor}
     \begin{align*}
       \ddt{\vec \x} = \mM(\vm,\c)\, \vec \x
     \end{align*}}
+        \vspace{-1.5em}
   % 
   \begin{itemize}
-  \item $\vec\x$ -- vector of state occupancies
+  \item $\vec\x$ -- conductive (open) and non-conductive states:
+    {\color{\eqcolor}$$\Pop(t) = \sum\x_\mathrm{open}$$}
+      \vspace{-1.5em}
   \item $\mM$ -- transition rates matrix
-  \item $\c$ -- ionic concentration
   \end{itemize}
-  }% uncover 2
-\end{frame}
+  % }% uncover 2
 
-\section{Integration Methods}
-\subsection{Gate Models}
-\begin{frame}
-  \frametitle{Gate Models}
+  \uncover<2->{
   Time-stepping through time discretization $\t_n = \t_0 + n \dt$ \\
   e.g. simplest -- forward Euler method:
   {\color{\eqcolor}
     \begin{align*}
-      \y_{n+1} = \y_n + \dt \ddt{\y_n}
+      \vec\x_{n+1} = \vec\x_n + \dt \ddt{\vec\x_n}
     \end{align*}}
   %
   \vspace{-1.5em}
   \begin{multicols}{2}
     \begin{itemize}
-    \item $\y_n\approx\y(\t_n)$
+    \item $\vec\x_n\approx\vec\x(\t_n)$
     \item $\dt$ -- time step
     \end{itemize}
   \end{multicols}
-  \uncover<2->{\emph{Numerically unstable} for large $\dt$.\\[1.5ex]}
-  \uncover<3->{
-  Rush-Larsen solution method
-  {\color{\eqcolor}
-  \begin{align*}
-    \y_{n+1} = \ybar(\vm_n) - \left(\ybar(\vm_n) - \y_n\right)
-    \exp\left(-\frac{\dt}{\tC(\vm_n)}\right)
-  \end{align*}}
-  \vspace{-0.5em}
-  \vspace{-1em}
-  \begin{itemize}
-  \item $\ybar$ -- steady state solution ($\t\rightarrow \infty$, voltage ``frozen'' at $\vm_n$)
-  \item $\tC$ -- time constant
-  \end{itemize}
   }
-  \uncover<4>{\emph{Not directly applicable} to Markov chain models.}
+  \uncover<3->{\emph{Numerically unstable} for large $\dt$.\\[1.5ex]}
+
 \end{frame}
 
-\subsection{Markov Chain Models}
+\section{Methods}
+\subsection{Exponential Integration}
 \begin{frame}
-  \frametitle{Markov Chain Models}
-  We extend the exponential time differentiation for Markov chain
+  \frametitle{Exponential Integration}
+  % We extend the exponential time differentiation for Markov chain
+  Approximation by ``freezing'' $\mM(\vm(t),\c(t))\approx\mM(\vm_n,\c_n)$ gives
   {\color{\eqcolor}
     \begin{align*}
       \vec \x_{n+1} = \exp\left(\mM(\vm_n,\c_n) \dt \right) \vec \x_n 
@@ -164,60 +168,34 @@
     {% \scriptsize
       \color{\eqcolor}
       \begin{align*}
-        &\exp\left(\mM \dt \right) =
-          \sum_{\Ej = 0}^{\infty} \frac{\mM^\Ej \dt^\Ej}{\Ej!}
-          \uncover<3->{ = \sum_{\Ej = 0}^{\infty} \frac{(\eM \eD \eM^{-1})^\Ej \dt^\Ej}{\Ej!}}
-          \uncover<4->{
-          =\\ &\sum_{\Ej = 0}^{\infty} \frac{ \eM \eD \eM^{-1} \eM \eD \eM^{-1} \hdots \eM \eD \eM^{-1}\dt^\Ej}{\Ej!}
-                =\sum_{\Ej = 0}^{\infty} \frac{ \eM  \eD \eD \hdots \eD  \eM^{-1}\dt^\Ej}{\Ej!}
-                =\\ &\eM\left(\sum_{\Ej = 0}^{\infty} \frac{ \eD^\Ej  \dt^\Ej}{\Ej!}\right)\eM^{-1}}
-                                                \uncover<5->{=
-                                                \highlight{\eM\exp{(\eD \dt)}\eM^{-1}}
-                                                }
+        \Tab= \exp\left(\mM \dt \right) =
+          \eM\exp{(\eD \dt)}\eM^{-1}
       \end{align*}}
     \begin{itemize}
       \vspace{-0.5em}
-      \uncover<3->{\item $\mM = \eM \eD \eM^{-1}$ -- eigenvalue decomposition
-      \item matrices: $\eM$ -- e-vectors in columns, $\eD$ -- e-values on diagonal}
-      \uncover<4->{\item $\eM^{-1} \eM = \I$ -- identity matrix}
-      \uncover<4->{\item $\I\eD = \eD$}
-    }% uncover 2
-  \end{itemize}
-\end{frame}
-
-\subsection{Tabulation}
-\begin{frame}
-  \frametitle{Tabulation}
-  To avoid expensive e-values and e-vectors computations at each time step:
-    \begin{itemize}
-    \uncover<2->{\item save the matrices $\eM(\tilde \vm)$ and $\eD(\tilde \vm)$ for a fine
-      grid of physiological voltages: $\tilde \vm = (-100, 70)$~mV
-      with the step 0.01~mV}
-    \uncover<3->{\item before integration starts compute: \\ $\Tab(\tilde \vm) =
-      \eM(\tilde \vm) \exp( \eD(\tilde \vm) \dt)
-      \eM(\tilde \vm)^{-1}$}
-    \uncover<4->{\item get numerical solution:
-      {\color{\eqcolor}
-      \begin{align*}
-        \color{\eqcolor}
-        \vec \x_{n+1} = \Tab(\tilde \vm_{j(n)}) \vec \x_n
-      \end{align*}}
-    where $\tilde \vm_{j(n)} \approx \vm_n$ and $\Tab(\tilde
-      \vm_{j(n)})$ is quickly found in the pre-computed look-up table}
+    \item $\mM = \eM \eD \eM^{-1}$ -- eigenvalue decomposition
+    \item matrices: $\eM$ -- e-vectors in columns, $\eD$ -- e-values on diagonal
     \end{itemize}
+    }% uncover 2
+    \uncover<3->{
+      Tabulation:
+      \begin{itemize}
+      \item save $\eM(\vm_j), \eD(\vm_j)$ for a fine grid of dependent variable
+      \end{itemize}
+      }
 \end{frame}
 
-\section{Ionic Channels}
-\subsection{RyR Channel}
+\section{Application}
+\subsection{Case 1: RyR Channel}
 
 \begin{frame}
-  \frametitle{RyR Channel}
+  \frametitle{Case 1: RyR Channel}
   \begin{minipage}{0.40\linewidth}
     \input{ryrmc.tex}    \vspace{3.50em}\\
     \uncover<2->{
-      \includegraphics[width=1.0\linewidth]{ryr-inst.pdf}}\\
-    \uncover<3->{
     \includegraphics[width=1.0\linewidth]{ryr-tr.pdf}}\\
+    \uncover<3->{
+      \includegraphics[width=1.0\linewidth]{ryr-inst.pdf}}\\
   \end{minipage}
   \begin{minipage}{0.58\linewidth}
     % \uncover<4->{
@@ -228,7 +206,7 @@
     %   \uncover<7->{$\del{}$'s}&
     %   \uncover<6->{$\bet{}$'s}\\
     % \end{tabular}}
-    \uncover<3->{
+    \uncover<2->{
       Transition rates:
       {\scriptsize
       \color{\eqcolor}
@@ -250,7 +228,7 @@
     \end{itemize}}
     % Forward Euler limited by instability issues for $dt \ge 7$.
     \uncover<6->{
-      Solved as
+      Solved in sub-steps as
     {\color{\eqcolor}
     \begin{align*}
       &\vec\vv_{n+1/2}=\exp\left(\dt\,\mB(\t_n)\right)\,\vec\vv_n\\
@@ -259,14 +237,14 @@
       + \dt\,\mC(\t_n)\,\vec\u_{n+1/2}}
     \end{align*}}
   where $\vec{v}=(I_1, \dots, I_5)$,\\ $\vec{\w}=(C_1,\dots,C_4,O_1)$ 
-\uncover<7->{  and $\vec \u =(\vec \vv,\vec \w)$}}
+\uncover<7->{  and $\vec \u =(\vec \vv,\vec \w)$.}}
   \end{minipage}
 \end{frame}
 
-\subsection{ical Channel}
+\subsection{Case 2: ical Channel}
 
 \begin{frame}
-  \frametitle{$\ical$ Channel}
+  \frametitle{Case 2: $\ical$ Channel}
   \begin{minipage}{0.50\linewidth}
   \input{icalmc.tex}
   \end{minipage}
@@ -296,14 +274,14 @@
   \end{minipage}\vspace{3.0em}\\
   \uncover<6->{
     \begin{itemize}
-    \item use exponential solvers for both parts
-    \item fraction of open channels is given by $p = \q O$
+    \item Exponential solvers applied for both parts
+    \item Open probability $\Pop(t) = \q(t) O(t)$
     \end{itemize}
   }  
 \end{frame}
 
 \section{Results and Conclusions}
-
+\subsection{}
 \begin{frame}
   \frametitle{Results and Conclusions}
   \includegraphics[width=1.0\linewidth]{summeth.pdf}
@@ -355,5 +333,96 @@ S.~Rush, H.~Larsen.
 \end{thebibliography}
   
 \end{frame}
+
+
+
+
+
+
+
+\begin{frame}
+  \frametitle{Cellular Membrane}
+  Capacitor equation describing a single cell
+  {\color{\eqcolor}
+  \begin{align*}
+    \ddt{\vm} = -\frac{1}{\Cm} \sum_{k} \Im_k(\vm,\c,\Pop)
+  \end{align*}}
+  %     \vspace{-1.5em}
+  % \begin{itemize}
+  % \item $\vm(t)$, $\Cm$  -- membrane voltage and capacitance
+  % \item $\Im_k(\vm,\c,\Pop)$ -- ionic currents
+  % \item $\c(t)$ -- ionic concentrations
+  % \item $\Pop(t)$ -- open probability of ionic channel
+  % \end{itemize}
+  %     \vspace{1em}
+  Ohm's law for current through ionic channel
+  {\color{\eqcolor}
+  \begin{align*}
+    \Im = \Gkmax \Pop(t) \Big[\vm(t) - \Em(c)\Big]
+  \end{align*}} 
+      \vspace{-1.5em}
+  \begin{itemize}
+  \item $\Gkmax$ -- maximum conductance 
+  \item $\Em(c)$ -- equilibrium voltage for specific ion
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Matrix Exponential}
+  % % We extend the exponential time differentiation for Markov chain
+  % Approximation by ``freezing'' $\mM(\vm(t),\c(t))\approx\mM(\vm_n,\c_n)$ gives
+  % {\color{\eqcolor}
+  %   \begin{align*}
+  %     \vec \x_{n+1} = \exp\left(\mM(\vm_n,\c_n) \dt \right) \vec \x_n 
+  %   \end{align*}}
+    Matrix exponential:
+    % 
+    {% \scriptsize
+      \color{\eqcolor}
+      \begin{align*}
+        &\Tab= \exp\left(\mM \dt \right) =
+          \sum_{\Ej = 0}^{\infty} \frac{\mM^\Ej \dt^\Ej}{\Ej!}
+          \uncover<2->{ = \sum_{\Ej = 0}^{\infty} \frac{(\eM \eD \eM^{-1})^\Ej \dt^\Ej}{\Ej!}}
+          \uncover<3->{
+          =\\ &\sum_{\Ej = 0}^{\infty} \frac{ \eM \eD \eM^{-1} \eM \eD \eM^{-1} \hdots \eM \eD \eM^{-1}\dt^\Ej}{\Ej!}
+                =\sum_{\Ej = 0}^{\infty} \frac{ \eM  \eD \eD \hdots \eD  \eM^{-1}\dt^\Ej}{\Ej!}
+                =\\ &\eM\left(\sum_{\Ej = 0}^{\infty} \frac{ \eD^\Ej  \dt^\Ej}{\Ej!}\right)\eM^{-1}}
+                                                \uncover<4->{=
+                                                \highlight{\eM\exp{(\eD \dt)}\eM^{-1}}
+                                                }
+      \end{align*}}
+    \begin{itemize}
+      \vspace{-0.5em}
+      \uncover<2->{\item $\mM = \eM \eD \eM^{-1}$ -- eigenvalue decomposition
+      \item matrices: $\eM$ -- e-vectors in columns, $\eD$ -- e-values on diagonal}
+      \uncover<3->{\item $\eM^{-1} \eM = \I$ -- identity matrix}
+      \uncover<3->{\item $\I\eD = \eD$}
+  \end{itemize}
+\end{frame}
+
+\subsection{Tabulation}
+\begin{frame}
+  \frametitle{Tabulation}
+  To avoid expensive e-values and e-vectors computations at each time step:
+    \begin{itemize}
+    \uncover<2->{\item save the matrices $\eM(\tvm_j)$ and $\eD(\tvm_j)$ for a fine grid
+      of dependent variable% : $\tvm = (-100, 70)$~mV
+      % with the step $\dvm = 0.01$~mV ($\tvm_j=\tvm_\mathrm{min} +j\dvm$)
+    }
+    \uncover<3->{\item find matrix exponential before the integration \\ $\Tab(\tvm) =
+      \eM(\tvm) \exp\left( \eD(\tvm) \dt\right)
+      \eM^{-1}(\tvm)$}
+    \uncover<4->{\item numerical scheme:
+      {\color{\eqcolor}
+      \begin{align*}
+        \color{\eqcolor}
+        \vec \x_{n+1} = \Tab(\tvm_{j(n)}) \vec \x_n
+      \end{align*}}
+    where $\tvm_{j(n)} \approx \vm_n$.}
+    \end{itemize}
+\end{frame}
+
+
+
 
 \end{document}
