@@ -14,7 +14,7 @@ Python
 
 * **Courtney Quinn** - *Initial work* - [CourtneyQuinn](https://github.com/CourtneyQuinn)
 * **Michelle Spruce** - *Initial work* - [MSpruce](https://github.com/MSpruce)
-* **Asiawan** - *Initial work* - 
+* **Asiawan Chankarn** - *Initial work* - [aisawa20](https://github.com/aisawa20)
 
 See also the list of [contributors](https://github.com/CourtneyQuinn/MOSS/graphs/contributors) who participated in this project.
 
