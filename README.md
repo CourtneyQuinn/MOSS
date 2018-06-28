@@ -13,7 +13,7 @@ Python
 ## Authors
 
 * **Courtney Quinn** - *Initial work* - [CourtneyQuinn](https://github.com/CourtneyQuinn)
-* **Michelle Spruce** - *Initial work* - 
+* **Michelle Spruce** - *Initial work* - [MSpruce](https://github.com/MSpruce)
 * **Asiawan** - *Initial work* - 
 
 See also the list of [contributors](https://github.com/CourtneyQuinn/MOSS/graphs/contributors) who participated in this project.
