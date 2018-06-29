@@ -10,6 +10,11 @@ Python
 
 * [JupyterLab](http://jupyterlab.readthedocs.io/en/stable/) - The web framework used
 
+## Notebooks relating to the project outputs
+
+CQ_EWS.ipynb
+AC_exploredata_updated.ipynb
+
 ## Authors
 
 * **Courtney Quinn** - *Initial work* - [CourtneyQuinn](https://github.com/CourtneyQuinn)
