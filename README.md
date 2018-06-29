@@ -12,8 +12,9 @@ Python
 
 ## Notebooks relating to the project outputs
 
-CQ_EWS.ipynb
-AC_exploredata_updated.ipynb
+AC_exploredata_updated.ipynb - Visualizing data and Creating a Regression model
+
+CQ_EWS.ipynb - Calculating Early Warning Signals for Eyewall Replacement Cycle
 
 ## Authors
 
